@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Architecture | Interactive Guide</title>
+    <meta name="description" content="An interactive, detailed guide exploring the architecture and components of Kubernetes.">
+    
+    <!-- Google Fonts: Space Grotesk for display, Inter for body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Custom Cursor elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Main Container -->
+    <main class="app-container">
+        
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Stylized K8s Wheel Logo Element (Simplified) -->
+                    <path d="M60 10L103.301 35V85L60 110L16.6987 85V35L60 10Z" stroke="var(--accent-blue)" stroke-width="6" fill="black"/>
+                    <path d="M60 25L90.3109 42.5V77.5L60 95L29.6891 77.5V42.5L60 25Z" fill="var(--accent-blue)"/>
+                </svg>
+                <span>K8S_ARCH</span>
+            </div>
+            <nav class="meta-nav">
+                <span>Interactive Edition</span>
+                <span>2026</span>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">
+                <span class="anim-word">Understand</span>
+                <span class="anim-word highlight">Kubernetes.</span>
+            </h1>
+            <p class="hero-subtitle anim-fade-up">A deep dive into the distributed operating system for the AI era. Click on the components below to explore.</p>
+        </section>
+
+        <!-- Architecture Diagram Canvas -->
+        <section class="architecture-canvas">
+            
+            <!-- Control Plane Group -->
+            <div class="node-group group-control-plane anim-scale-in" style="--anim-delay: 0.2s">
+                <div class="group-bg"></div>
+                <h2>Control Plane</h2>
+                <div class="components-grid">
+                    <button class="k8s-component" data-target="kube-apiserver">
+                        <span class="comp-icon">🔗</span>
+                        <span class="comp-name">kube-apiserver</span>
+                    </button>
+                    <button class="k8s-component" data-target="etcd">
+                        <span class="comp-icon">💾</span>
+                        <span class="comp-name">etcd</span>
+                    </button>
+                    <button class="k8s-component" data-target="kube-scheduler">
+                        <span class="comp-icon">⚖️</span>
+                        <span class="comp-name">kube-scheduler</span>
+                    </button>
+                    <button class="k8s-component" data-target="kube-controller-manager">
+                        <span class="comp-icon">⚙️</span>
+                        <span class="comp-name">Controller Manager</span>
+                    </button>
+                    <button class="k8s-component" data-target="cloud-controller-manager">
+                        <span class="comp-icon">☁️</span>
+                        <span class="comp-name">Cloud Controller</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Worker Node Group -->
+            <div class="node-group group-worker-node anim-scale-in" style="--anim-delay: 0.4s">
+                <div class="group-bg"></div>
+                <h2>Worker Node</h2>
+                <div class="components-grid">
+                    <button class="k8s-component" data-target="kubelet">
+                        <span class="comp-icon">🩺</span>
+                        <span class="comp-name">kubelet</span>
+                    </button>
+                    <button class="k8s-component" data-target="kube-proxy">
+                        <span class="comp-icon">🔀</span>
+                        <span class="comp-name">kube-proxy</span>
+                    </button>
+                    <button class="k8s-component" data-target="container-runtime">
+                        <span class="comp-icon">📦</span>
+                        <span class="comp-name">Container Runtime</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Detail Overlay Panel -->
+    <div class="detail-overlay" id="detail-overlay" aria-hidden="true">
+        <div class="detail-backdrop" id="detail-backdrop"></div>
+        <div class="detail-panel">
+            <button class="close-btn" id="close-btn" aria-label="Close panel">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div class="detail-content">
+                <div class="detail-icon" id="detail-icon">⚙️</div>
+                <h3 class="detail-subtitle" id="detail-subtitle">Subtitle</h3>
+                <h2 class="detail-title" id="detail-title">Component Name</h2>
+                <div class="detail-description">
+                    <p id="detail-desc-text">Description goes here...</p>
+                </div>
+                
+                <h4 class="capabilities-heading">Key Characteristics</h4>
+                <ul class="detail-list" id="detail-list">
+                    <!-- Injected via JS -->
+                </ul>
+            </div>
+            
+            <!-- Abstract decorative element in the panel -->
+            <div class="panel-decoration"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

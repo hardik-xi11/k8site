@@ -1,0 +1,520 @@
+:root {
+    /* Color Palette - Dark Premium */
+    --bg-main: #0a0a0c;
+    --bg-secondary: #13141a;
+    --bg-overlay: rgba(10, 10, 12, 0.85);
+    
+    --text-main: #f0f0f5;
+    --text-muted: #8e93a6;
+    
+    /* Kubernetes Core Colors adjusted for dark mode */
+    --accent-blue: #326CE5;
+    --accent-blue-glow: rgba(50, 108, 229, 0.3);
+    
+    /* Highlights */
+    --highlight-cyan: #00f0ff;
+    --highlight-purple: #9d4edd;
+
+    /* Typography */
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Animation Tokens */
+    --transition-fast: 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-smooth: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-bounce: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* =========================================
+   Base Resets & Setup
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    /* Custom cursor hide default */
+    cursor: none; 
+    line-height: 1.6;
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+}
+
+/* =========================================
+   Custom Cursor
+   ========================================= */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--highlight-cyan);
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.1s ease-out;
+}
+
+/* Hover States for cursor */
+.cursor-hover .cursor-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent-blue);
+}
+.cursor-hover .cursor-outline {
+    width: 60px;
+    height: 60px;
+    background-color: var(--accent-blue-glow);
+    border-color: transparent;
+}
+
+
+/* =========================================
+   Layout & Typography
+   ========================================= */
+.app-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem 4rem;
+    position: relative;
+}
+
+/* Header */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.meta-nav {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 8rem 0 6rem 0;
+    max-width: 900px;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    perspective: 1000px;
+}
+
+.anim-word {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+.hero-title .highlight {
+    color: var(--accent-blue);
+    background: linear-gradient(90deg, var(--highlight-cyan), var(--accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 600px;
+}
+
+/* =========================================
+   Architecture Canvas
+   ========================================= */
+.architecture-canvas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    padding-bottom: 10rem;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 1024px) {
+    .architecture-canvas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.node-group {
+    position: relative;
+    padding: 3rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-secondary);
+    overflow: hidden;
+    transition: transform var(--transition-smooth), border-color var(--transition-fast);
+}
+
+.node-group:hover {
+    border-color: rgba(50, 108, 229, 0.3);
+    transform: translateY(-5px);
+}
+
+.group-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top right, rgba(50, 108, 229, 0.05), transparent 50%);
+    pointer-events: none;
+}
+
+.group-control-plane .group-bg {
+    background: radial-gradient(circle at top right, rgba(157, 78, 221, 0.05), transparent 50%);
+}
+
+.node-group h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    font-weight: 400;
+    position: relative;
+    display: inline-block;
+}
+
+.node-group h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-blue);
+}
+
+.components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================================
+   Component Buttons
+   ========================================= */
+.k8s-component {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    color: var(--text-main);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all var(--transition-bounce);
+    position: relative;
+    overflow: hidden;
+    /* Fix for custom cursor acting on buttons */
+    cursor: none; 
+}
+
+.k8s-component::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform var(--transition-smooth);
+}
+
+.k8s-component:hover {
+    background: rgba(50, 108, 229, 0.1);
+    border-color: rgba(50, 108, 229, 0.4);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.k8s-component:hover::before {
+    transform: translateX(100%);
+}
+
+.comp-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    transition: transform var(--transition-bounce);
+}
+
+.k8s-component:hover .comp-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.comp-name {
+    font-weight: 500;
+}
+
+/* =========================================
+   Detail Overlay Panel
+   ========================================= */
+.detail-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1000;
+    pointer-events: none; /* Let clicks pass through when hidden */
+    display: flex;
+    justify-content: flex-end; /* Panel slides in from right */
+}
+
+/* When overlay is active */
+.detail-overlay.active {
+    pointer-events: auto;
+}
+
+.detail-backdrop {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+}
+
+.detail-overlay.active .detail-backdrop {
+    opacity: 1;
+}
+
+.detail-panel {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    height: 100%;
+    background: var(--bg-secondary);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    transform: translateX(100%);
+    transition: transform var(--transition-smooth);
+    padding: 6rem 4rem;
+    overflow-y: auto;
+    box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+}
+
+.detail-overlay.active .detail-panel {
+    transform: translateX(0);
+}
+
+.close-btn {
+    position: absolute;
+    top: 2rem; right: 3rem;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    transition: background var(--transition-fast), transform var(--transition-bounce);
+    /* cursor fix */
+    cursor: none;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: rotate(90deg);
+}
+
+.detail-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.2s, transform 0.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detail-subtitle {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.3s, transform 0.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detail-title {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.4s, transform 0.6s 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detail-description {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 4rem;
+    max-width: 500px;
+    line-height: 1.8;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.5s, transform 0.6s 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.capabilities-heading {
+    font-size: 1.5rem;
+    font-family: var(--font-display);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.6s, transform 0.6s 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detail-list {
+    list-style: none;
+}
+
+.detail-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    /* Will be staggered in JS via custom properties if needed, or CSS delay */
+    transition: opacity 0.4s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.detail-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--highlight-cyan);
+}
+
+/* Stagger list item entrance */
+.detail-overlay.active .detail-list li:nth-child(1) { transition-delay: 0.6s; }
+.detail-overlay.active .detail-list li:nth-child(2) { transition-delay: 0.7s; }
+.detail-overlay.active .detail-list li:nth-child(3) { transition-delay: 0.8s; }
+.detail-overlay.active .detail-list li:nth-child(4) { transition-delay: 0.9s; }
+.detail-overlay.active .detail-list li:nth-child(5) { transition-delay: 1.0s; }
+
+
+/* Animate panel content when active */
+.detail-overlay.active .detail-icon,
+.detail-overlay.active .detail-subtitle,
+.detail-overlay.active .detail-title,
+.detail-overlay.active .detail-description,
+.detail-overlay.active .capabilities-heading,
+.detail-overlay.active .detail-list li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Decorative element inside panel */
+.panel-decoration {
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-blue-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/* =========================================
+   Initial Load Animations
+   ========================================= */
+.anim-scale-in {
+    opacity: 0;
+    transform: scale(0.95) translateY(30px);
+    animation: scaleIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--anim-delay, 0s);
+}
+
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes scaleIn {
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Word reveal for hero title via JS */
+.word-reveal {
+    opacity: 0;
+    transform: translateY(100%) rotateX(-20deg);
+    animation: revealText 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes revealText {
+    to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .app-container { padding: 1.5rem; }
+    .node-group { padding: 2rem 1.5rem; }
+    .hero-section { padding: 4rem 0 3rem 0; }
+    .detail-panel { padding: 4rem 2rem; width: 100vw; transform: translateX(100vw); }
+    /* Disable custom cursor on touch/small screens */
+    .cursor-dot, .cursor-outline { display: none; }
+    body, * { cursor: auto !important; }
+}

@@ -1,0 +1,16 @@
+{
+	"name": "Kubernetes Interactive Website",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+	"forwardPorts": [3000],
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint"
+			]
+		}
+	},
+	"postCreateCommand": "npm install -g serve",
+	"remoteUser": "node"
+}
